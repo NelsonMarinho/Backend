@@ -6,18 +6,20 @@ const path = require('path');
 const mealRoutes = require('./routes/mealRoutes');
 const { connectDB } = require('./config/database');
 
+// Carregar variáveis de ambiente
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware para CORS e JSON
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos do diretório frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
-
+// Conectar ao banco de dados
 const db = connectDB();
+
+// Criar tabelas se não existirem
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS meals (
@@ -53,7 +55,7 @@ db.serialize(() => {
   });
 });
 
-// Rotas
+// Rotas da API
 app.use('/api/meals', mealRoutes);
 
 // Rota para obter refeições por mês e ano
@@ -72,6 +74,7 @@ app.get('/api/meals', (req, res) => {
   });
 });
 
+// Rota para adicionar uma nova refeição
 app.post('/api/meals', (req, res) => {
   const { date, lunch, dinner, snack, soda } = req.body;
   const query = 'INSERT INTO meals (date, lunch, dinner, snack, soda) VALUES (?, ?, ?, ?, ?)';
@@ -85,6 +88,7 @@ app.post('/api/meals', (req, res) => {
   });
 });
 
+// Rota para obter preços
 app.get('/api/prices', (req, res) => {
   db.get('SELECT * FROM prices WHERE id = 1', (err, row) => {
     if (err) {
@@ -95,6 +99,7 @@ app.get('/api/prices', (req, res) => {
   });
 });
 
+// Rota para atualizar preços
 app.post('/api/prices', (req, res) => {
   const { lunchPrice, dinnerPrice, snackPrice, sodaPrice } = req.body;
   const query = `
@@ -116,6 +121,10 @@ app.post('/api/prices', (req, res) => {
   });
 });
 
+// Servir arquivos estáticos do diretório frontend
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Rota para o arquivo HTML principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
