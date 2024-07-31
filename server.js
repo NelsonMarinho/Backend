@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -6,13 +5,11 @@ const path = require('path');
 const mealRoutes = require('./routes/mealRoutes');
 const { connectDB } = require('./config/database');
 
-// Carregar variáveis de ambiente
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware para CORS e JSON
 app.use(cors());
 app.use(express.json());
 
@@ -122,14 +119,14 @@ app.post('/api/prices', (req, res) => {
 });
 
 // Servir arquivos estáticos do diretório frontend
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Rota para o arquivo HTML principal
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log('Serving static files from:', path.join(__dirname, '../frontend'));
+  console.log('Serving static files from:', path.join(__dirname, 'frontend'));
 });
