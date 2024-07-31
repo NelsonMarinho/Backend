@@ -118,15 +118,11 @@ app.post('/api/prices', (req, res) => {
   });
 });
 
-// Servir arquivos estáticos do diretório frontend
-app.use(express.static(path.join(__dirname, 'frontend')));
-
-// Rota para o arquivo HTML principal
+// Rota para verificar funcionamento do backend
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  res.send("Backend is running");
 });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log('Serving static files from:', path.join(__dirname, 'frontend'));
 });
