@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: backend-service
+    env: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'npm start'
+    envVars:
+      - key: DATABASE_URL
+        value: <sua_url_do_banco>
+      - key: OTHER_ENV_VAR
+        value: <valor_da_variavel>
