@@ -1,7 +1,7 @@
 {
-  "name": "meal-control-app",
+  "name": "meal-control-app-backend",
   "version": "1.0.0",
-  "description": "Aplicação para controle de refeições.",
+  "description": "Backend para controle de refeições.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
